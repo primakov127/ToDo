@@ -76,7 +76,7 @@ namespace ToDo.ViewModel
             set => Set(ref taskLists, value);
         }
 
-        //[UndoRedo]
+        [UndoRedo]
         public TaskList SelectedTaskList
         {
             get => selectedTaskList;

@@ -91,6 +91,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Abstract\CustomNotifyPropertyChanged.cs" />
     <Compile Include="Abstract\ViewModel.cs" />
     <Compile Include="Model\Task.cs" />
     <Compile Include="Model\TaskList.cs" />
@@ -98,7 +99,6 @@
     <Compile Include="ViewModel\Commands\HistoryCommand.cs" />
     <Compile Include="ViewModel\Commands\UndoRedoAttribute.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\TaskViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

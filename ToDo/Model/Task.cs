@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using ToDo.Abstract;
 
 namespace ToDo.Model
 {
@@ -25,36 +26,64 @@ namespace ToDo.Model
     }
 
     [Serializable]
-    public class Task : INotifyPropertyChanged
+    public class Task : CustomNotifyPropertyChanged
     {
-        public string text;
+        #region Fields
+
+        private string text;
+        private string description;
+        private DateTime? date;
+        private Repeat? repeat;
+        private Priority? priority;
+        private bool isCompleted;
+
+        #endregion
 
         public Task()
         {
-            this.Description = "";
-            this.IsCompleted = false;
+            this.description = "";
+            this.isCompleted = false;
         }
+
+        #region Dependency property
 
         public string Text
         {
-            get { return text; }
-            set
-            {
-                text = value;
-                OnPropertyChanged("Text");
-            }
+            get => this.text;
+            set => Set(ref this.text, value);
         }
-        public string Description { get; set; }
-        public DateTime? Date { get; set; }
-        public Repeat? Repeat { get; set; }
-        public Priority? Priority { get; set; }
-        public bool IsCompleted { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        public string Description
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            get => this.description;
+            set => Set(ref this.description, value);
         }
+
+        public DateTime? Date
+        {
+            get => this.date;
+            set => Set(ref this.date, value);
+        }
+
+        public Repeat? Repeat
+        {
+            get => this.repeat;
+            set => Set(ref this.repeat, value);
+        }
+
+        public Priority? Priority
+        {
+            get => this.priority;
+            set => Set(ref this.priority, value);
+        }
+
+        public bool IsCompleted
+        {
+            get => this.isCompleted;
+            set => Set(ref this.isCompleted, value);
+        }
+
+        #endregion
+
     }
 }

@@ -9,7 +9,7 @@ using ToDo.ViewModel.Commands;
 
 namespace ToDo.Abstract
 {
-    public class ViewModel : INotifyPropertyChanged
+    public abstract class ViewModel : CustomNotifyPropertyChanged
     {
         static bool isUndoProcess = false;
         static bool isRedoProcess = false;
@@ -21,14 +21,7 @@ namespace ToDo.Abstract
         static Stack<(object Obj, string Prop, object OldValue)> redoHistory
             = new Stack<(object Obj, string Prop, object OldValue)>();
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void NotifyPropertyChanged([CallerMemberName]string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
-
-        protected bool Set<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
+        protected new bool Set<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, value))
                 return false;
