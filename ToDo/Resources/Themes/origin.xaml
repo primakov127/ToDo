@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ToDo.Resources.Themes">
+
+    <SolidColorBrush x:Key="topMenuColor" Color="CadetBlue"/>
+
+    <SolidColorBrush x:Key="topMenuBorderColor" Color="LightBlue"/>
+
+    <SolidColorBrush x:Key="headerColor" Color="LightBlue"/>
+
+    <SolidColorBrush x:Key="mainGridColor" Color="AliceBlue"/>
+
+    <SolidColorBrush x:Key="taskNameColor" Color="YellowGreen"/>
+
+    <SolidColorBrush x:Key="changeLanguageColor" Color="LightSkyBlue"/>
+
+    <SolidColorBrush x:Key="addButtonColor" Color="PaleTurquoise"/>
+
+    <SolidColorBrush x:Key="addButtonBorderColor" Color="CadetBlue"/>
+
+</ResourceDictionary>

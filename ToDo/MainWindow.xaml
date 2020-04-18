@@ -1,0 +1,318 @@
+﻿<Window x:Class="ToDo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ToDo"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:Task="clr-namespace:ToDo.Model"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="800" MinWidth="800" MinHeight="350">
+
+    <!--#region Window Resources-->
+    
+    <Window.Resources>
+        <ObjectDataProvider x:Key="PriorityData" MethodName="GetValues" 
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Task:Priority"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <ObjectDataProvider x:Key="RepeatData" MethodName="GetValues" 
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Task:Repeat"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    
+    <!--#endregion-->
+
+    <Grid Background="{DynamicResource mainGridColor}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!--#region Left side menu-->
+        
+        <Grid Grid.Column="0" Style="{StaticResource LeftMenuAnimation}" Background="White">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!--#region Top menu with buttons-->
+            
+            <StackPanel Grid.Row="0" Background="{DynamicResource topMenuColor}">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Style="{StaticResource LeftMenuButtonsHide}">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Background="{DynamicResource topMenuColor}" 
+                                    BorderBrush="{DynamicResource topMenuColor}"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                                    Command="{Binding UndoCommand}">
+                                <materialDesign:PackIcon Kind="Undo"/>
+                            </Button>
+
+                            <Button Background="{DynamicResource topMenuColor}" 
+                                    BorderBrush="{DynamicResource topMenuColor}"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                                    Command="{Binding RedoCommand}">
+                                <materialDesign:PackIcon Kind="Redo"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                    
+
+                    <ToggleButton x:Name="hideMenuToggleButton" Grid.Column="1"
+                                  IsChecked="True" HorizontalAlignment="Right"
+                                  Style="{DynamicResource MaterialDesignHamburgerToggleButton}"/>
+                </Grid>
+                
+
+                <Button Background="{DynamicResource topMenuColor}"
+                        BorderBrush="{DynamicResource topMenuBorderColor}"
+                        Focusable="False" Padding="5" Command="{Binding Path=TodayTasksCommand}"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="CalendarToday" Margin="5 0 5 0"/>
+                        <TextBlock Text="{DynamicResource m_today}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Background="{DynamicResource topMenuColor}"
+                        BorderBrush="{DynamicResource topMenuBorderColor}"
+                        Focusable="False" Padding="5" Command="{Binding Path=DayTasksCommand}"
+                        CommandParameter="{Binding ElementName=searchDatePicker, Path=SelectedDate}"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="CalendarSearch" Margin="5 0 5 0"/>
+                        <TextBlock Text="{DynamicResource m_selectDate}"/>
+                    </StackPanel>
+                </Button>
+
+                <DatePicker x:Name="searchDatePicker"
+                            HorizontalAlignment="Center" Margin="5" Focusable="False"/>
+                
+            </StackPanel>
+            
+            <!--#endregion-->
+
+            <Grid Grid.Row="1" Style="{StaticResource LeftMenuHide}">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+
+                <!--#region Task lists DataGrid-->
+                
+                <DataGrid x:Name="taskListDataGrid" Grid.Row="0" SelectionMode="Single" AutoGenerateColumns="False" HeadersVisibility="None"
+                          GridLinesVisibility="None" Background="White" HorizontalScrollBarVisibility="Disabled"
+                          Padding="10" CanUserAddRows="False" ItemsSource="{Binding Path=TaskLists}" 
+                          SelectedItem="{Binding Path=SelectedTaskList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="*" Binding="{Binding Path=ListName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    </DataGrid.Columns>
+
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{DynamicResource m_deleteList}" 
+                                      Command="{Binding Path=RemoveTaskListCommand}">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="Delete" Foreground="Red"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+
+                </DataGrid>
+                
+                <!--#endregion-->
+
+                <!--#region Area of adding new lists-->
+                
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                            Margin="5" ToolTip="{DynamicResource m_addNewList}" Width="35" Height="35"
+                            Background="{DynamicResource addButtonColor}" BorderBrush="{DynamicResource addButtonBorderColor}"
+                            Command="{Binding Path=AddListCommand}" CommandParameter="{Binding ElementName=newListName}">
+                        <materialDesign:PackIcon Kind="Add"/>
+                    </Button>
+
+                    <TextBox x:Name="newListName" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource m_newListName}"
+                         VerticalAlignment="Center" FontSize="20" Margin="5 0 5 0"/>
+
+                </Grid>
+                
+                <!--#endregion-->
+                
+            </Grid>
+
+        </Grid>
+        
+        <!--#endregion-->
+
+        <!--#region Midle area-->
+        
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition/>
+                <RowDefinition Height="110"/>
+            </Grid.RowDefinitions>
+
+            <!--#region Header-->
+            
+            <Grid Grid.Row="0" Background="{DynamicResource headerColor}">
+
+                <Grid HorizontalAlignment="Right">
+                    <ToggleButton Background="{DynamicResource changeLanguageColor}"
+                                  BorderBrush="{DynamicResource changeLanguageColor}"
+                                  Style="{StaticResource MaterialDesignFlatLightBgButton}"
+                                  ToolTip="{DynamicResource m_changeLanguage}"
+                                  Command="{Binding Path=ChangeLanguageCommand}" 
+                                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
+                        <materialDesign:PackIcon Kind="Language"/>
+                    </ToggleButton>
+
+                    <ToggleButton VerticalAlignment="Bottom" Height="10" Margin="5"
+                                  Command="{Binding Path=ChangeThemeCommand}"
+                                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                </Grid>
+                
+                <Label Margin="25 0" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left"
+                       VerticalAlignment="Center" Content="{Binding Path=SelectedTaskList.ListName}"/>
+                
+                
+                
+            </Grid>
+            
+            <!--#endregion-->
+
+            <!--#region Tasks DataGrid-->
+            
+            <DataGrid x:Name="tasksDataGrid" Grid.Row="1" Margin="20 0 20 0" 
+                      Background="{DynamicResource mainGridColor}" CanUserAddRows="False"
+                      SelectionMode="Single" AutoGenerateColumns="False" 
+                      HorizontalScrollBarVisibility="Disabled" 
+                      ItemsSource="{Binding Path=SelectedTaskList.Tasks}" 
+                      SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                <DataGrid.Columns>
+                    
+                    <DataGridCheckBoxColumn
+                        Binding="{Binding Path=IsCompleted, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                        EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"/>
+                    
+                    <DataGridTextColumn 
+                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                        FontSize="20" Width="*" Binding="{Binding Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    
+                </DataGrid.Columns>
+
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="{DynamicResource m_deleteTask}"
+                                  Command="{Binding Path=RemoveTaskCommand}">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Delete" Foreground="Red"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                
+            </DataGrid>
+            
+            <!--#endregion-->
+
+            <!--#region Area of adding new tasks-->
+            
+            <Grid Grid.Row="2" Margin="5 10 5 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Style="{StaticResource MaterialDesignIconForegroundButton}"
+                        ToolTip="{DynamicResource m_addNewTask}"
+                        Command="{Binding Path=AddTaskCommand}" 
+                        CommandParameter="{Binding ElementName=taskListDataGrid, Path=SelectedItem}">
+                    <materialDesign:PackIcon Kind="Add"/>
+                </Button>
+
+                <TextBox x:Name="newTaskName"
+                         Grid.Column="1" FontSize="30" VerticalAlignment="Center" Margin="5 0"
+                         materialDesign:HintAssist.Hint="{DynamicResource m_newTaskName}"
+                         Text="{Binding Path=NewTask.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <StackPanel Grid.Column="2">
+
+                    <DatePicker Width="85" Focusable="False"
+                                materialDesign:HintAssist.Hint="{DynamicResource m_newTaskDate}"
+                                Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                                SelectedDate="{Binding Path=NewTask.Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <ComboBox ItemsSource="{Binding Source={StaticResource PriorityData}}"
+                              SelectedItem="{Binding Path=NewTask.Priority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <ComboBox ItemsSource="{Binding Source={StaticResource RepeatData}}"
+                              SelectedItem="{Binding Path=NewTask.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                </StackPanel>
+
+            </Grid>
+            
+            <!--#endregion-->
+            
+        </Grid>
+        
+        <!--#endregion-->
+
+        <!--#region Right side menu-->
+        
+        <Grid Grid.Column="2" Background="GhostWhite" Style="{StaticResource RightMenuAnimation}">
+            <StackPanel Margin="10">
+
+                <TextBlock VerticalAlignment="Stretch" FontSize="20" TextWrapping="Wrap" Padding="10 0"
+                           Background="{DynamicResource taskNameColor}" Text="{Binding Path=SelectedTask.Text}"/>
+
+                <DatePicker Focusable="False" materialDesign:HintAssist.Hint="{DynamicResource m_newTaskDate}"
+                            SelectedDate="{Binding Path=SelectedTask.Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <ComboBox ItemsSource="{Binding Source={StaticResource PriorityData}}" 
+                          SelectedItem="{Binding Path=SelectedTask.Priority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <ComboBox ItemsSource="{Binding Source={StaticResource RepeatData}}"
+                          SelectedItem="{Binding Path=SelectedTask.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBox Margin="0 10" AcceptsReturn="True" TextWrapping="Wrap" Height="150"
+                         materialDesign:HintAssist.Hint="{DynamicResource m_currentTaskDescription}"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                         Text="{Binding Path=SelectedTask.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            </StackPanel>
+        </Grid>
+        
+        <!--#endregion-->
+        
+    </Grid>
+</Window>

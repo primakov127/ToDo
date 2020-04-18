@@ -1,0 +1,141 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ToDo.Resources"
+                    xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
+
+    <!--#region Left menu Button-->
+
+    <Style x:Key="MaterialDesignFlatButton" BasedOn="{StaticResource MaterialDesignFlatButton}">
+        <Setter Property="Control.Background" Value="CadetBlue"/>
+        <Setter Property="Control.BorderBrush" Value="CadetBlue"/>
+        <Setter Property="Control.Focusable" Value="False"/>
+        <Setter Property="Control.Padding" Value="5"/>
+    </Style>
+    
+    <!--#endregion-->
+
+    <!--#region Left menu Icon-->
+
+    <Style x:Key="MenuIconStyle">
+        <Setter Property="Control.Margin" Value="5 0 5 0"/>
+    </Style>
+    
+    <!--#endregion-->
+
+    <!--#region Left menu Animation-->
+    
+    <Style x:Key="LeftMenuAnimation" TargetType="Grid">
+        <Setter Property="Width" Value="200"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=hideMenuToggleButton, Path=IsChecked}"
+                                     Value="False">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" To="35"
+                                                         Duration="0:0:0.3"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" To="200"
+                                                         Duration="0:0:0.3"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!--#endregion-->
+
+    <!--#region Hide left menu elements-->
+    
+    <Style x:Key="LeftMenuHide" TargetType="Grid">
+        <Setter Property="Width" Value="200"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=hideMenuToggleButton, Path=IsChecked}"
+                                     Value="False">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" To="0"
+                                                         Duration="0:0:0.3"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" To="200"
+                                                         Duration="0:0:0.3"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!--#endregion-->
+    
+    <!--#region Hide left menu buttons-->
+
+    <Style x:Key="LeftMenuButtonsHide" TargetType="Grid">
+        <Setter Property="Width" Value="100"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=hideMenuToggleButton, Path=IsChecked}"
+                                     Value="False">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" To="0"
+                                                         Duration="0:0:0.3"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" To="100"
+                                                         Duration="0:0:0.3"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--#endregion-->
+    
+    <!--#region Right menu Animation-->
+
+    <Style x:Key="RightMenuAnimation" TargetType="Grid">
+        <Setter Property="Width" Value="200"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=tasksDataGrid, Path=SelectedIndex}"
+                                     Value="-1">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" To="0"
+                                                         Duration="0:0:0.3"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" To="200"
+                                                         Duration="0:0:0.3"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!--#endregion-->
+
+</ResourceDictionary>
