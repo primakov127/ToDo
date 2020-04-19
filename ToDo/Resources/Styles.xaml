@@ -138,4 +138,99 @@
     
     <!--#endregion-->
 
+    <!--#region Selected DataGrid row Animation-->
+    
+    <Style x:Key="SelectedDataGridRow" TargetType="DataGridRow">
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Duration="0:0:0.1" To="20"
+                                             Storyboard.TargetProperty="FontSize"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseLeave">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Duration="0:0:0.1"
+                                             Storyboard.TargetProperty="FontSize"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!--#endregion-->
+    
+    <!--#region Grid MultiTrigger Example-->
+
+    <!--<Style TargetType="Button">
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="true"/>
+                    <Condition Property="IsPressed" Value="true"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="Height" Value="50"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>-->
+
+    <!--#endregion-->
+    
+    <!--#region Button Template Example-->
+
+    <ControlTemplate x:Key="ButtonTemplate" TargetType="Button">
+        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="2"
+                TextBlock.Foreground="White">
+            <ContentPresenter Margin="{TemplateBinding Padding}"/>
+        </Border>
+    </ControlTemplate>
+    
+    <!--#endregion-->
+    
+    <!--#region Button for Custom Control Spoiler-->
+
+    <Style x:Key="SpoilerButton" TargetType="{x:Type Button}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="MyBackgroundElement" Padding="5" CornerRadius="2" BorderBrush="#387f38" BorderThickness="1">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF0FB9B1" Offset="0" />
+                                <GradientStop Color="#FF2BCBBA" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <ContentPresenter x:Name="ButtonContentPresenter" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="MyBackgroundElement" Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF0DA69F" Offset="0" />
+                                        <GradientStop Color="#FF12BBB4" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--#endregion-->
+    
 </ResourceDictionary>

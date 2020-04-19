@@ -39,11 +39,15 @@ namespace ToDo.Model
 
         #endregion
 
+        #region Constructors
+
         public Task()
         {
             this.description = "";
             this.isCompleted = false;
         }
+
+        #endregion
 
         #region Dependency property
 

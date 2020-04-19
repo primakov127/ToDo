@@ -93,12 +93,19 @@
     </ApplicationDefinition>
     <Compile Include="Abstract\CustomNotifyPropertyChanged.cs" />
     <Compile Include="Abstract\ViewModel.cs" />
+    <Compile Include="CustomControls\SpoilerControl.xaml.cs">
+      <DependentUpon>SpoilerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\Task.cs" />
     <Compile Include="Model\TaskList.cs" />
     <Compile Include="ViewModel\Commands\Command.cs" />
     <Compile Include="ViewModel\Commands\HistoryCommand.cs" />
     <Compile Include="ViewModel\Commands\UndoRedoAttribute.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Page Include="CustomControls\SpoilerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

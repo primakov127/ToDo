@@ -76,7 +76,6 @@ namespace ToDo.ViewModel
             set => Set(ref taskLists, value);
         }
 
-        [UndoRedo]
         public TaskList SelectedTaskList
         {
             get => selectedTaskList;
@@ -96,6 +95,8 @@ namespace ToDo.ViewModel
         }
 
         #endregion
+
+        #region Methods
 
         public void AddNewList(object param)
         {
@@ -244,5 +245,7 @@ namespace ToDo.ViewModel
                 cout.Write(bytes, 0, bytes.Length);
             }
         }
+
+        #endregion
     }
 }

@@ -4,7 +4,7 @@
 
     <SolidColorBrush x:Key="topMenuColor" Color="CadetBlue"/>
 
-    <SolidColorBrush x:Key="topMenuBorderColor" Color="LightBlue"/>
+    <SolidColorBrush x:Key="topMenuBorderColor" Color="AliceBlue"/>
 
     <SolidColorBrush x:Key="headerColor" Color="LightBlue"/>
 

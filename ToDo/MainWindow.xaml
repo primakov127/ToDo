@@ -7,6 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:Task="clr-namespace:ToDo.Model"
+        xmlns:custom="clr-namespace:ToDo.CustomControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="800" MinWidth="800" MinHeight="350">
 
@@ -116,15 +117,16 @@
                 </Grid.RowDefinitions>
 
                 <!--#region Task lists DataGrid-->
-                
+
                 <DataGrid x:Name="taskListDataGrid" Grid.Row="0" SelectionMode="Single" AutoGenerateColumns="False" HeadersVisibility="None"
                           GridLinesVisibility="None" Background="White" HorizontalScrollBarVisibility="Disabled"
-                          Padding="10" CanUserAddRows="False" ItemsSource="{Binding Path=TaskLists}" 
+                          Padding="10" CanUserAddRows="False" ItemsSource="{Binding Path=TaskLists}" RowStyle="{StaticResource SelectedDataGridRow}"
                           SelectedItem="{Binding Path=SelectedTaskList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Width="*" Binding="{Binding Path=ListName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
                     </DataGrid.Columns>
+                    
 
                     <DataGrid.ContextMenu>
                         <ContextMenu>
@@ -157,7 +159,7 @@
                     </Button>
 
                     <TextBox x:Name="newListName" Grid.Column="1" materialDesign:HintAssist.Hint="{DynamicResource m_newListName}"
-                         VerticalAlignment="Center" FontSize="20" Margin="5 0 5 0"/>
+                             VerticalAlignment="Center" FontSize="20" Margin="5 0 5 0"/>
 
                 </Grid>
                 
@@ -170,7 +172,7 @@
         <!--#endregion-->
 
         <!--#region Midle area-->
-        
+
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="70"/>
@@ -179,10 +181,11 @@
             </Grid.RowDefinitions>
 
             <!--#region Header-->
-            
-            <Grid Grid.Row="0" Background="{DynamicResource headerColor}">
 
+            <Grid Grid.Row="0" Background="{DynamicResource headerColor}">
+                
                 <Grid HorizontalAlignment="Right">
+                    
                     <ToggleButton Background="{DynamicResource changeLanguageColor}"
                                   BorderBrush="{DynamicResource changeLanguageColor}"
                                   Style="{StaticResource MaterialDesignFlatLightBgButton}"
@@ -195,13 +198,13 @@
                     <ToggleButton VerticalAlignment="Bottom" Height="10" Margin="5"
                                   Command="{Binding Path=ChangeThemeCommand}"
                                   CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+
                 </Grid>
                 
                 <Label Margin="25 0" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left"
                        VerticalAlignment="Center" Content="{Binding Path=SelectedTaskList.ListName}"/>
-                
-                
-                
+
+
             </Grid>
             
             <!--#endregion-->
@@ -309,7 +312,11 @@
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
                          Text="{Binding Path=SelectedTask.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
+                <custom:SpoilerControl Secret="This is a secret message!"/>
+
             </StackPanel>
+            
+            
         </Grid>
         
         <!--#endregion-->

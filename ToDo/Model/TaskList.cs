@@ -4,14 +4,21 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToDo.Abstract;
 
 namespace ToDo.Model
 {
     [Serializable]
-    public class TaskList
+    public class TaskList : CustomNotifyPropertyChanged
     {
-        public string ListName { get; set; }
-        public ObservableCollection<Task> Tasks { get; set; }
+        #region Fields
+
+        private string listName;
+        private ObservableCollection<Task> tasks;
+
+        #endregion
+
+        #region Constructors
 
         public TaskList()
         {
@@ -20,8 +27,26 @@ namespace ToDo.Model
 
         public TaskList(string nameParam)
         {
-            this.ListName = nameParam;
-            this.Tasks = new ObservableCollection<Task>();
+            this.listName = nameParam;
+            this.tasks = new ObservableCollection<Task>();
         }
+
+        #endregion
+
+        #region Dependency property
+
+        public string ListName
+        {
+            get => this.listName;
+            set => Set(ref this.listName, value);
+        }
+        public ObservableCollection<Task> Tasks
+        {
+            get => this.tasks;
+            set => Set(ref this.tasks, value);
+        }
+
+        #endregion
+
     }
 }
